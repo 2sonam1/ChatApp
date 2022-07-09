@@ -1,0 +1,240 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+    /* background-image: radial-gradient(circle, #ffffff,#f5f3f4); */
+    
+
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: radial-gradient(circle, #cec2ff,#ab87ff);
+    border: 1px solid #ab87ff;
+    height: 500px;
+    width: 500px;
+    position: absolute;
+    left: 900px;
+    top: 100px;
+    box-shadow: 4px 7px 13px rgb(93, 91, 91);
+    font-size: 1.5rem;
+    align-items: center;
+    text-align: center;
+    border-radius: 25px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+input[type=text]{
+    width: 300px;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #ab87ff;
+    box-shadow: 4px 7px 13px rgb(93, 91, 91);
+    background-color: white;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+input[type=text]:focus{
+    border: 0px solid #ab87ff;
+    outline: none;
+
+    
+}
+
+input[type='submit']{
+    width: 300px;
+    height: 50px;
+    font-size: 1.5rem;
+    border-radius: 25px;
+    border: 1px solid #cdffaf;
+    box-shadow: 4px 7px 13px rgb(93, 91, 91);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-image: radial-gradient(circle, #d7ffbf,#cdffaf);
+}
+
+input[type='submit']:hover{
+    cursor: pointer;
+    background-image: radial-gradient(circle, #c2eb9f,#a3df7f);
+    border: 1px solid #a3df7f;
+}
+
+
+
+h1{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    top:300px;
+    left: 240px;
+    font-size: 6rem;
+    -webkit-text-stroke: 0.1rem #ab87ff;
+
+}
+
+h1::before{
+    content: attr(data-text);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 40%;
+    height: 100%;
+    color:#ab87ff ;
+    border-right: 4px solid #ab87ff;
+    overflow: hidden;
+    animation-name: animate;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animate{
+
+    from{
+        width:0;
+    }
+    to{
+        width:100%;
+    }
+
+}
+
+/* #a img{
+    height: 60px;
+    width: 230px;
+    position: absolute;
+    left: 1150px;
+    top: 620px;
+} */
+
+img{
+    left:-100px;
+    position: absolute;
+    height: 400px;
+    top: 120px;
+}
+
+
+
+
+/* body {
+  margin: auto;
+  padding: 50px;
+  background-image: url("{% static '89125.jpg' %}");
+  width: 800px;
+  text-align: center;
+  background-size: 1550px 750px;
+}
+
+.star{ */
+  /* background-color: #f5c22a; */
+  /* color: white;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 30px;
+}
+
+.container {
+  border: 2px solid #dedede;
+  background-color: #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+#post-form{
+  color: white;
+  font-family: "Lucida Console", "Courier New", monospace;
+} */
+</style>
+</head>
+<!-- <body>
+
+<div align="center" class="star">
+    <h2>GozipSs</h2>
+</div>
+
+
+<div class="container">
+    <style>
+    input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid #f5c22a;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #f5c22a;
+    }
+
+    input[type=submit] {
+    width: 100%;
+    background-color: #f5c22a;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    input[type=submit]:hover {
+    background-color: #a17c0c;
+    }
+
+    div {
+    border-radius: 2px;
+    background-color: #f5c22a;
+    padding: 10px;
+    }
+    </style>
+
+    <form id="post-form" method="POST" action="checkview">
+        {% csrf_token %}
+        <label>Group</label>
+        <input type="text" name="room_name" id="room_name" width="100px" />
+        <label>Your Name</label>
+        <input type="text" name="username" id="username" width="100px" />
+        <input type="submit" value="Enter in your Group">
+    </form>
+</div>
+
+
+</body> -->
+
+<body>
+
+  <div class="heading">
+      <h1 data-text="ChatApp">ChatApp</h1>
+  </div>
+
+  <!-- <div id="a"><img  src="C:\Users\DELL\Downloads\2421844_Prancheta 1.png"></div> -->
+
+  <div class="container">
+      <img src="{% static '2760244-01.png' %}">
+      <form action="checkview" id="post-form" method="POST">
+          {% csrf_token %}
+          <label>Group Name</label><br>
+          <input type="text" name="room_name" id="room_name"><br><br>
+          <label>Your Name</label><br>
+          <input type="text" name="username" id="username"><br><br><br>
+          <input type="submit" value="Enter in your group">
+      </form>
+  </div>
+
+</body>
+
+
+</html>

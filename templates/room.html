@@ -1,0 +1,228 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  background-image: radial-gradient(circle, #cec2ff,#ab87ff); 
+  justify-content: center;
+  align-items: center;
+  width :700px;
+  position: absolute;
+  left:300px;
+  margin:140px;
+  margin-bottom: 40px;
+  border-radius: 25px;
+  box-shadow: 4px 7px 13px rgb(93, 91, 91);
+}
+
+.container {
+  border: 2px solid #dedede;
+  background-color: white;
+  border-radius: 5px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 650px;
+  left:0px;
+  height:100px;
+  margin:30px;
+  box-shadow: 4px 7px 13px rgb(93, 91, 91);
+  padding: 10px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+input[type=text]{
+    width: 450px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1px solid #ab87ff;
+    box-shadow: 4px 7px 13px rgb(93, 91, 91);
+    background-color: white;
+    padding: 10px;
+    font-size: 1rem;
+    margin:20px;
+    position: relative;
+    top:-20px;
+}
+
+input[type=text]:focus{
+    border: 0px solid #ab87ff;
+    outline: none;
+
+    
+}
+
+h1{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 6rem;
+    -webkit-text-stroke: 0.1rem #ab87ff;
+    left:600px;
+    margin:20px;
+
+}
+
+h1::before{
+    content: attr(data-text);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 40%;
+    height: 100%;
+    color:#ab87ff ;
+    border-right: 4px solid #ab87ff;
+    overflow: hidden;
+    animation-name: animate;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animate{
+
+    from{
+        width:0;
+    }
+    to{
+        width:100%;
+    }
+
+}
+
+input[type='submit']{
+    width: 90px;
+    height: 30px;
+    font-size: 1rem;
+    border-radius: 25px;
+    border: 1px solid #cdffaf;
+    box-shadow: 4px 7px 13px rgb(93, 91, 91);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-image: radial-gradient(circle, #d7ffbf,#cdffaf);
+    position: relative;
+    top:-20px;
+    left:-3px;
+}
+
+input[type='submit']:hover{
+    cursor: pointer;
+    background-image: radial-gradient(circle, #c2eb9f,#a3df7f);
+    border: 1px solid #a3df7f;
+}
+
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+
+</style>
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+<div class="heading">
+    <h1 data-text="{{room}}">{{room}}</h1>
+</div>
+
+
+<div class="box">
+
+  <div id="display">
+
+    <script>
+    $(document).ready(function(){
+  
+    setInterval(function(){
+        $.ajax({
+            type: 'GET',
+            url : "/getMessages/{{room}}/",
+            success: function(response){
+                console.log(response);
+                $("#display").empty();
+                for (var key in response.messages)
+                {
+                    var temp="<div class='container'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
+                    $("#display").append(temp);
+                }
+            },
+            error: function(response){
+                alert('An error occured')
+            }
+        });
+    },1000);
+    })
+    </script>
+  
+  </div>
+  <div class="container">
+
+    
+
+    <form  id="post-form">
+      {% csrf_token %}
+      <input type="hidden" name="username" id="username" value="{{username}}"><br>
+      <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"><br>
+      <input type="text" name="message" id="message" >
+      <input type="submit" value="Send">
+    </form>
+
+  </div>
+  
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+  $(document).on('submit','#post-form',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type:'POST',
+      url:'/send',
+      data:{
+          username:$('#username').val(),
+          room_id:$('#room_id').val(),
+          message:$('#message').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function(data){
+         //alert(data)
+      }
+    });
+    document.getElementById('message').value = ''
+  });
+</script>
+
+</html>
